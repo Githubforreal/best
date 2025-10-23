@@ -126,29 +126,26 @@
     }
     setInterval(createHeart, 500);
 
-    // Music control
-    playBtn.addEventListener('click', async () => {
-  try {
-    await bgMusic.play();
-    playBtn.textContent = '🎵 Playing...';
-    playBtn.disabled = true;
-  } catch (err) {
-    // Some browsers need user gesture, so we try again automatically after 1 second
-    setTimeout(async () => {
-      try {
-        await bgMusic.play();
-        playBtn.textContent = '🎵 Playing...';
-        playBtn.disabled = true;
-      } catch (err2) {
-        alert("Tap once more to start the music 🎶");
-      }
-    }, 1000);
-  }
+   // 🎵 Music control (fixed version)
+const playBtn = document.getElementById("playMusic");
+const bgMusic = new Audio("bestpart.mp3");
+
+playBtn.addEventListener("click", () => {
+  bgMusic.play()
+    .then(() => {
+      playBtn.textContent = "🎶 Playing...";
+      playBtn.disabled = true; // optional, prevents multiple clicks
+    })
+    .catch((error) => {
+      console.error("Playback error:", error);
+    });
 });
+
 
   </script>
 </body>
 </html>
+
 
 
 
