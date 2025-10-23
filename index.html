@@ -127,16 +127,29 @@
     setInterval(createHeart, 500);
 
     // Music control
-    playBtn.addEventListener('click', () => {
-  bgMusic.play().then(() => {
+    playBtn.addEventListener('click', async () => {
+  try {
+    await bgMusic.play();
     playBtn.textContent = '🎵 Playing...';
     playBtn.disabled = true;
-  }).catch(err => {
-    alert("Click again to start the music 🎶");
-  });
+  } catch (err) {
+    // Some browsers need user gesture, so we try again automatically after 1 second
+    setTimeout(async () => {
+      try {
+        await bgMusic.play();
+        playBtn.textContent = '🎵 Playing...';
+        playBtn.disabled = true;
+      } catch (err2) {
+        alert("Tap once more to start the music 🎶");
+      }
+    }, 1000);
+  }
+});
+
 });
 
   </script>
 </body>
 </html>
+
 
